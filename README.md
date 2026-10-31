@@ -12,9 +12,9 @@ Current Status:
 - ⚠️ Image filename mapping under investigation
 - ⚠️ End-to-end migration not yet validated
 
-# pix4d-webodm-gcp-converter
 Project: Recovering Legacy Pix4D GCP Data for Open-Source Photogrammetry
-# Pix4D to WebODM GCP Converter
+
+Recovering and converting legacy Pix4D GCP observations for open-source photogrammetry workflows.
 
 Recover Ground Control Point (GCP) observations from Pix4D project exports and convert them into WebODM-compatible GCP files.
 
