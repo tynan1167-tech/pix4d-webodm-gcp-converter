@@ -1,3 +1,17 @@
+## Project Status
+
+🚧 Research & Development
+
+This project is an investigation into recovering Ground Control Point (GCP) observations from legacy Pix4D projects and converting them into formats compatible with WebODM/OpenDroneMap.
+
+Current Status:
+- ✅ GCP coordinate recovery
+- ✅ MTP observation recovery
+- ✅ Pix4D project parsing
+- ✅ WebODM GCP generation
+- ⚠️ Image filename mapping under investigation
+- ⚠️ End-to-end migration not yet validated
+
 # pix4d-webodm-gcp-converter
 Project: Recovering Legacy Pix4D GCP Data for Open-Source Photogrammetry
 # Pix4D to WebODM GCP Converter
@@ -23,6 +37,83 @@ This tool extracts:
 - Survey coordinates
 
 and automatically generates a WebODM-compatible GCP file.
+
+## Lessons Learned
+
+### Pix4D Stores More Information Than Expected
+
+Although standard GCP exports provide only surveyed coordinates, the `tp_pix4d.txt` file contains image-space observations used during bundle adjustment.
+
+Example:
+
+```text
+MTP_3000 2239.51 98.2832 1
+```
+
+These records preserve the image measurements necessary for reconstructing GCP observations.
+
+---
+
+### Reverse Engineering Proprietary Formats
+
+Recovering GCP observations required:
+
+- Investigating Pix4D project exports
+- Parsing a 4.8+ million record file
+- Identifying MTP records
+- Reconstructing links between image observations and surveyed points
+
+---
+
+### Filename Mapping is Non-Trivial
+
+A major challenge encountered was determining how Pix4D references imagery internally.
+
+Example:
+
+```text
+Shoreline Place 0055
+```
+
+appears to identify an image, but initial WebODM testing suggests this label may not directly correspond to the image filename expected during processing.
+
+---
+
+### WebODM Validation
+
+WebODM successfully:
+
+- Parsed the generated GCP files
+- Accepted EPSG:6597 coordinates
+- Detected control points
+
+However, image matching failed because image references could not be resolved.
+
+Future work will focus on validating filename reconstruction and creating a fully automated migration workflow.
+
+## Open Research Questions
+
+- How does Pix4D store image filename references internally?
+- Can image labels be reliably mapped to original filenames?
+- Can a fully automated Pix4D → WebODM migration workflow be created?
+- Can bundle adjustment metadata be exported directly from Pix4D projects?
+
+## Investigation Log
+### October 2026
+
+Recovered MTP-based GCP observations from a legacy Pix4D project.
+
+Observed records:
+
+MTP_3000 2239.51 98.2832 1
+
+Successfully reconstructed:
+
+- GCP IDs
+- Image-space coordinates
+- Survey coordinates
+
+Generated valid WebODM GCP syntax but encountered unresolved image filename matching issues.
 
 ## Example
 
