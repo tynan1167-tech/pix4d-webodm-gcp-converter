@@ -22,7 +22,7 @@ A legacy drone mapping project was originally processed using Pix4Dmapper.
 
 Although surveyed Ground Control Point (GCP) coordinates remained available, access to Pix4D software was no longer available. The objective of this project was to determine whether image-space GCP observations could be recovered directly from Pix4D project exports and converted into formats compatible with WebODM/OpenDroneMap.
 
-The project evolved into an investigation of Pix4D's internal project structure, GCP storage methods, and interoperability with open-source photogrammetry software.
+This effort evolved into a broader investigation of Pix4D's internal project structure, GCP storage methods, and interoperability challenges with open-source photogrammetry workflows.
 
 ## Background
 
@@ -33,14 +33,14 @@ EPSG:6597
 geo_x geo_y geo_z im_x im_y filename label
 ```
 
-Many legacy Pix4D projects contain surveyed coordinates but not readily accessible image-space observations. This project examined whether those observations remained embedded in exported project files and whether they could be reconstructed into a usable WebODM control-point format.
+Many legacy Pix4D projects contain surveyed coordinates but do not expose the image-space observations in a straightforward format. This project explored whether those observations remained embedded in exported project data and whether they could be reconstructed into a usable WebODM control-point input.
 
 The investigation focused on:
 
-- GCP identification in legacy Pix4D project exports
-- Recovery of image-space observations from `tp_pix4d.txt`
-- Matching observed image coordinates to surveyed control points
-- Evaluating interoperability with WebODM/OpenDroneMap workflows
+- Recovering GCP observations from legacy Pix4D project exports
+- Parsing large Pix4D text outputs
+- Matching image-space measurements to surveyed coordinates
+- Evaluating compatibility with WebODM/OpenDroneMap processing
 
 ## Investigation Findings
 
@@ -54,7 +54,7 @@ Example:
 MTP_3000 2239.51 98.2832 1
 ```
 
-These observations preserve the image measurements necessary for reconstructing GCP observations.
+These observations preserve the image measurements necessary for reconstructing GCP records.
 
 ### Reverse Engineering Proprietary Formats
 
@@ -65,7 +65,7 @@ Recovering GCP observations required:
 - Identifying MTP records
 - Reconstructing links between image observations and surveyed points
 
-### Filename Mapping is Non-Trivial
+### Filename Mapping Is Non-Trivial
 
 A major challenge encountered was determining how Pix4D references imagery internally.
 
@@ -75,7 +75,7 @@ Example:
 Shoreline Place 0055
 ```
 
-This label appears to identify an image, but the exact relationship to the original filename remains under investigation. WebODM requires precise filename matching, which means that image label reconstruction is a critical compatibility issue.
+This label appears to identify an image, but the exact relationship to the original image filename remains under investigation. WebODM requires precise filename matching, which means image label reconstruction is a critical interoperability issue.
 
 ### WebODM Validation
 
@@ -85,7 +85,7 @@ WebODM successfully:
 - Accepted EPSG:6597 coordinates
 - Detected control points
 
-However, image matching failed because image references could not be resolved consistently. This indicates that the recovered coordinate data is valid, but a complete migration workflow still requires additional filename reconstruction.
+However, image matching failed because image references could not be resolved consistently. This indicates that the recovered coordinate data is viable, but a complete migration workflow still requires additional filename reconstruction.
 
 ## Technical Challenges
 
@@ -93,7 +93,7 @@ The following challenges were encountered during development:
 
 ### Parsing Large Datasets
 
-One project export contained over 4.8 million observation records, requiring automated processing and careful filtering to isolate relevant GCP measurements.
+One project export contained over 4.8 million observation records, requiring automated filtering and targeted extraction of relevant GCP measurements.
 
 ### Filename Resolution
 
@@ -153,6 +153,35 @@ Output:
 - Can a fully automated Pix4D → WebODM migration workflow be created?
 - Can bundle adjustment metadata be exported directly from Pix4D projects?
 
+## Investigation Log
+
+### October 2026
+
+Recovered MTP-based GCP observations from a legacy Pix4D project.
+
+Observed records included:
+
+```text
+MTP_3000 2239.51 98.2832 1
+```
+
+Successfully reconstructed:
+
+- GCP IDs
+- Image-space coordinates
+- Surveyed control coordinates
+
+Generated valid WebODM GCP syntax but encountered unresolved image filename matching issues.
+
+## Use Cases
+
+- Pix4D → WebODM migration
+- Legacy project recovery
+- Open-source photogrammetry workflows
+- UAS survey projects
+- GIS and geospatial portfolio development
+- Photogrammetry interoperability research
+
 ## Future Development
 
 Planned next steps include:
@@ -197,3 +226,4 @@ Tynan Conner
 
 Developed as part of independent work exploring UAS photogrammetry, survey control workflows, GIS automation, and open-source geospatial processing.
 
+---
