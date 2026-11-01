@@ -22,7 +22,7 @@ A legacy drone mapping project was originally processed using Pix4Dmapper.
 
 Although surveyed Ground Control Point (GCP) coordinates remained available, access to Pix4D software was no longer available. The objective of this project was to determine whether image-space GCP observations could be recovered directly from Pix4D project exports and converted into formats compatible with WebODM/OpenDroneMap.
 
-This effort evolved into a broader investigation of Pix4D's internal project structure, GCP storage methods, and interoperability challenges with open-source photogrammetry workflows.
+This effort evolved into a broader investigation of Pix4D’s internal project structure, GCP storage methods, and interoperability challenges with open-source photogrammetry workflows.
 
 ## Background
 
@@ -227,3 +227,5 @@ Tynan Conner
 Developed as part of independent work exploring UAS photogrammetry, survey control workflows, GIS automation, and open-source geospatial processing.
 
 ---
+
+This project reflects a practical investigation into legacy photogrammetry interoperability, reverse engineering proprietary export formats, and evaluating whether hidden GCP observations can be recovered and translated into a modern open-source processing workflow.
